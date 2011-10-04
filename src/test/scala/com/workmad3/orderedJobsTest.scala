@@ -19,6 +19,10 @@ class orderedJobsTest extends SpecificationWithJUnit {
   }
 
   "string 'a =>\nb => c\n c=>' should contain the job 'c' before the job 'b'" in {
-    orderedJobs.parse("a =>\nb => c\nc =>") must containInOrder(List("c", "b"))
+    orderedJobs.parse("a =>\nb => c\nc =>") must containInOrder(List("a", "c", "b"))
+  }
+
+  "string 'a =>\nb => c\nc => f\nd => a\ne => b\nf =>' should follow correct dependencies" in {
+    orderedJobs.parse("a =>\nb => c\nc => f\nd => a\ne => b\nf =>") must containInOrder(List("a", "f", "c", "b", "d", "e"))
   }
 }
