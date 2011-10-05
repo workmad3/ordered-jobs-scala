@@ -2,13 +2,9 @@ package com.workmad3
 
 object orderedJobs {
   def parse(jobSpec: String):List[String] = {
-    if (jobSpec.compareTo("") == 0)
-      List[String]()
-    else {
-      var jobList = new JobList
-      jobSpec.lines.foreach(jobList.createJob(_))
-      jobList.toList
-    }
+    var jobList = new JobList
+    jobSpec.lines.foreach(jobList.createJob(_))
+    jobList.toList
   }
 }
 
