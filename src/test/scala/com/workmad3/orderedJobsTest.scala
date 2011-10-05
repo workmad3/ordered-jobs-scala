@@ -25,4 +25,12 @@ class orderedJobsTest extends SpecificationWithJUnit {
   "string 'a =>\nb => c\nc => f\nd => a\ne => b\nf =>' should follow correct dependencies" in {
     orderedJobs.parse("a =>\nb => c\nc => f\nd => a\ne => b\nf =>") must containInOrder(List("a", "f", "c", "b", "d", "e"))
   }
+
+  "string 'a =>\nb =>\nc => c' should raise an error saying 'Jobs can't depend on themselves'" in {
+    orderedJobs.parse("a =>\nb =>\nc => c") must throwA[JobSelfReferenceException]
+  }
+
+  "string 'a =>\nb => c\nc => f\nd => a\ne =>\nf => b' should raise an error saying 'Jobs can't have circular dependencies'" in {
+    orderedJobs.parse("a =>\nb => c\nc => f\nd => a\ne =>\nf => b") must throwA[JobCircularDependencyException]
+  }
 }
